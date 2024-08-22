@@ -85,9 +85,45 @@ products.forEach((product, index) => {
       Added
     </div>
 
-    <button class="add-to-cart-button button-primary">Add to Cart</button>
+    <button class="js-add-to-cart add-to-cart-button button-primary" data-product-id="${product.id}">Add to Cart</button>
   </div>`;
 });
 
-console.log(productsHTML);
+//console.log(productsHTML);
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
+
+//Adding Event listener to 'Add to cart' button:
+document.querySelectorAll('.js-add-to-cart').forEach((addBtn) => {
+  addBtn.addEventListener('click', (event) => {
+    console.log(addBtn.dataset); //gives us all the data-attributes attached to that element as object: {productName: "Adults Plain Cotton T-Shirt - 2 Pack"}
+
+    const productId = addBtn.dataset.productId;
+    let matchingItem;
+    cart.forEach((item) => {
+      if (item.productId === productId) {
+        matchingItem = item;
+      }
+    });
+
+    if (matchingItem) {
+      matchingItem.quantity += 1;
+    } else {
+      cart.push({
+        productId: productId,
+        quantity: 1,
+      });
+    }
+
+    // const productArr = cart.filter((product) => product.producName === productName);
+    // if (!productArr.length) {
+    //   cart.push({
+    //     producName: productName,
+    //     quantity: 1,
+    //   });
+    // } else {
+    //   productArr[0].quantity += 1;
+    // }
+
+    console.log(cart);
+  });
+});

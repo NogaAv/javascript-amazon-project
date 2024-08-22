@@ -124,6 +124,13 @@ document.querySelectorAll('.js-add-to-cart').forEach((addBtn) => {
     //   productArr[0].quantity += 1;
     // }
 
-    console.log(cart);
+    //update cart quantity in up-right corner of amazon.html page:
+    let cartQuantity = 0;
+    cart.forEach((item) => (cartQuantity += item.quantity));
+    document.querySelectorAll('.cart-quantity').forEach((cartQuant) => {
+      cartQuant.innerText = cartQuantity;
+    });
+
+    // console.log(cart);
   });
 });

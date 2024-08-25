@@ -100,3 +100,5 @@ This file is called: The Entry-point:
   cartModule.cart;
 
 --------------------
+12:54:44
+Create the Checkout Page.

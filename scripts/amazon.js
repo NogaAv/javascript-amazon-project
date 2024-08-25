@@ -102,6 +102,9 @@ products.forEach((product, index) => {
 //console.log(productsHTML);
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
+//In case we already have items in cart, we update the cart icon quantity:
+updateCartQuantity();
+
 //We will not move this function to the cart.js file, because this function updates the webpage,
 //and not the cart itself.
 function updateCartQuantity() {

@@ -1,4 +1,5 @@
 import { cart, addToCart } from '../data/cart.js';
+import { formatCurrency } from '../scripts/utils/money.js';
 /*
   //Another way to import: Import all the file content and rename, them I can access any func or variable:
 
@@ -71,7 +72,7 @@ products.forEach((product, index) => {
       <div class="product-rating-count link-primary">${product.rating.count}</div>
     </div>
 
-    <div class="product-price">$${(product.priceCents / 100).toFixed(2)}</div>
+    <div class="product-price">$${formatCurrency(product.priceCents)}</div>
 
     <div class="product-quantity-container">
       <select>

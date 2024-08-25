@@ -1,15 +1,17 @@
 //with export: this variable can be accessed outside cart.js
-export let cart = [
-  {
-    //we create default values to make the development easier when we reproduce this page
-    productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
-    quantity: 2,
-  },
-  {
-    productId: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
-    quantity: 1,
-  },
-];
+export let cart = getFromStorage();
+
+////we create default values to make the development easier when we reproduce this page:
+// [
+//   {
+//     productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
+//     quantity: 2,
+//   },
+//   {
+//     productId: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
+//     quantity: 1,
+//   },
+// ];
 
 export function addToCart(productId) {
   let matchingItem;
@@ -27,6 +29,17 @@ export function addToCart(productId) {
       quantity: 1,
     });
   }
+
+  saveToStorage();
+}
+
+function saveToStorage() {
+  localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+function getFromStorage() {
+  //If the cart is empty we don't want the localStorage to return null, so we give default
+  return JSON.parse(localStorage.getItem('cart')) || [];
 }
 
 export function removeFromCart(productId) {
@@ -38,6 +51,7 @@ export function removeFromCart(productId) {
   });
 
   cart = newCart;
+  saveToStorage();
   // cart.forEach((cartItem, index) => {
   //   if (cartItem.productId === itemId) {
   //     console.log(cart.splice(index, 1));

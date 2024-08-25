@@ -127,3 +127,12 @@ i.e- we concatenated the product id to the class name. Now, deleting this item b
 
 In the event-listener function:
     document.querySelector(`.js-cart-item-container-${productId}`).remove();
+
+
+We want the state of the cart to be saved when refreshing the page and when navigating to 
+different pages of the app. Therefore we =
+Add the cart object to our: LocalStorage:
+We added function to save cart to the localStorage in the cart.js.
+
+**Whenever we upfdate the cart, we need to save it to localStorage, so it doesn't reset when we 
+refresh the page.

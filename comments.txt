@@ -1,0 +1,89 @@
+14 - Modules:
+--------------
+Modules = a better way to organize our code.
+
+Currently, in the amazon.html end of body tag we put:
+    <script src="./scripts/cart.js"></script>
+    <script src="./data/products.js"></script>
+    <script src="./scripts/amazon.js"></script>
+
+The problem - This can cause NAMING CONFLICTS. 
+for example- in cart.js we created variable
+    const cart = [];
+
+That means we cannot redeclair variable with that same name in any other of the js files, 
+It will results in error on the webpage console: 
+    "Uncaufght SyntaxError: Identifier 'cart' has already been declaired"
+
+The big problem with <script></script> tags: It's hard to track naming of variables given in all 
+js files and it's easy making naming conflicts.
+
+How to solve that problem? => Using js feature names: Modules
+
+Module = contains a variable inside a js file, so that this variable will not cause conflict with 
+anything outside the file.
+How to create module?
+----------------------
+As explained, the tag:      <script src="./scripts/cart.js"></script>
+- run all the code inside 'cart.js'
+- create a cart variable
+- cause a naming conflict
+
+first we remove the script tag:
+    <!-- <script src="./scripts/cart.js"></script> -->
+
+Create a Module:
+================
+1) Create a file 
+2) Don't load the file with a script tag <script>
+
+By doing so - 
+Any variable we create inside the file, will be contained inside the file.
+and it won't cause naming conflict.
+
+So we already have the cart.js file with the definition 'const cart = [];'  in it.
+
+Now we learn:
+How To: Get a Variable Out Of a File:
+-------------------------------------
+1. Add type="module" attribute
+2. Export
+3.Import
+
+
+1 - Adding type="module" attribute:
+Inside the amazon.html file, we go to the last script tag and add: type="module" attribute:
+    <script type="module" src="./scripts/amazon.js"></script>
+
+type="module" attribute:
+ Let's this file get variables out of other files. Enables this feature.
+
+2 - Export:
+Now, we go to the cart.js file, We want to access the variable 'const cart', 
+so we add in front of the variable 'export':
+    export const cart = [];    //Now this variable can be accessed outside cart.js
+
+3 - Import:
+We go to the place where we use that variable, in this case the cart variable is used 
+inside amazon.js, and at the top of that file we tell the computer what variable we want to
+get from another file:
+    import { cart } from '../data/cart.js';     //Note: the .js extention is a must 
+
+* Note:
+1. Put all imports at the top of the file.
+2. In order for modules to work: we need to use 'Live Server' to open our html files.
+
+
+Benifits of Modules:
+---------------------
+1. Helps us avoid naming conflicts. After that change I will get naming conflict only if 
+inside tha amazon.js I re-declair the 'const cart' again, but now I have much more control, 
+and also: I can still declair the same variable name imported by Renaming the import:
+
+    import {cart as myCart} from '../data/cart.js';    //renaming the import
+
+    const cart = [];  /Now there is no conflict
+2. We don't need to worry about the order of files.
+with several script tags we needed the order of the script tags to be correct and it's hard to 
+manage with big projects.
+

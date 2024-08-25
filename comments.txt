@@ -106,3 +106,24 @@ Create the Checkout Page.
 we created folder: utilsunder scripts folder
 
 13:32 - make delete btn in the Checkout page responsive
+
+In the checkout page: When we click the delete button:
+1. The products are removed from the cart (we created removeFromCart() function in cart.js)
+2. We need to update the HTML of the checkout page 
+
+
+How can we remove items from the page? One way to do this:
+----------------------------------------------------------
+1. Use the DOM to get element to remove 
+2. Use .remove() method: Every element we get from the DOM has a method: .removed() .Example:
+    const button = document.querySelector('button');
+    button.remove();   <==
+
+BUT, How can we know what element on the DOM to call .remove() on?
+We will add new class to the out-most div of the product element in the checkout page:
+(It's the div with the class:  class="cart-item-container"), we added the 
+    class="js-cart-item-container-${matchingProduct.id}" 
+i.e- we concatenated the product id to the class name. Now, deleting this item by class is simple:
+
+In the event-listener function:
+    document.querySelector(`.js-cart-item-container-${productId}`).remove();

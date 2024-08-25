@@ -1,5 +1,5 @@
 //with export: this variable can be accessed outside cart.js
-export const cart = [
+export let cart = [
   {
     //we create default values to make the development easier when we reproduce this page
     productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
@@ -27,4 +27,20 @@ export function addToCart(productId) {
       quantity: 1,
     });
   }
+}
+
+export function removeFromCart(productId) {
+  const newCart = [];
+  cart.forEach((cartItem) => {
+    if (cartItem.productId !== productId) {
+      newCart.push(cartItem);
+    }
+  });
+
+  cart = newCart;
+  // cart.forEach((cartItem, index) => {
+  //   if (cartItem.productId === itemId) {
+  //     console.log(cart.splice(index, 1));
+  //   }
+  // });
 }

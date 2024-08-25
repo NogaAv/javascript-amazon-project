@@ -104,3 +104,5 @@ This file is called: The Entry-point:
 Create the Checkout Page.
 
 we created folder: utilsunder scripts folder
+
+13:32 - make delete btn in the Checkout page responsive

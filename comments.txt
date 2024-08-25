@@ -87,3 +87,16 @@ and also: I can still declair the same variable name imported by Renaming the im
 with several script tags we needed the order of the script tags to be correct and it's hard to 
 manage with big projects.
 
+!Note: We still need a single <script></script> of js file because we still need to load our code.
+So the file amazon.js will load the code and will import from all other files.
+This file is called: The Entry-point:
+        <script type="module" src="./scripts/amazon.js"></script>
+
+
+ ** Another way to import: Import all the file content and rename, them I can access any func or variable:
+  
+  import * as cartModule from '../data/cart.js';
+  cartModule.addToCart('id');
+  cartModule.cart;
+
+--------------------

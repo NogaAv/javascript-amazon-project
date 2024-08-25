@@ -1,4 +1,12 @@
-import { cart } from '../data/cart.js';
+import { cart, addToCart } from '../data/cart.js';
+/*
+  //Another way to import: Import all the file content and rename, them I can access any func or variable:
+
+  import * as cartModule from '../data/cart.js';
+  cartModule.addToCart('id');
+  cartModule.cart;
+*/
+
 import { products } from '../data/products.js';
 //Data Structure:
 // const products = [
@@ -94,45 +102,24 @@ products.forEach((product, index) => {
 //console.log(productsHTML);
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
+//We will not move this function to the cart.js file, because this function updates the webpage,
+//and not the cart itself.
+function updateCartQuantity() {
+  //update cart quantity in up-right corner of amazon.html page:
+  let cartQuantity = 0;
+  cart.forEach((cartItem) => (cartQuantity += cartItem.quantity));
+  document.querySelectorAll('.cart-quantity').forEach((cartQuant) => {
+    cartQuant.innerText = cartQuantity;
+  });
+}
+
 //Adding Event listener to 'Add to cart' button:
 document.querySelectorAll('.js-add-to-cart').forEach((addBtn) => {
   addBtn.addEventListener('click', (event) => {
-    console.log(addBtn.dataset); //gives us all the data-attributes attached to that element as object: {productName: "Adults Plain Cotton T-Shirt - 2 Pack"}
+    //console.log(addBtn.dataset); //gives us all the data-attributes attached to that element as object: {productName: "Adults Plain Cotton T-Shirt - 2 Pack"}
 
     const productId = addBtn.dataset.productId;
-    let matchingItem;
-    cart.forEach((item) => {
-      if (item.productId === productId) {
-        matchingItem = item;
-      }
-    });
-
-    if (matchingItem) {
-      matchingItem.quantity += 1;
-    } else {
-      cart.push({
-        productId: productId,
-        quantity: 1,
-      });
-    }
-
-    // const productArr = cart.filter((product) => product.producName === productName);
-    // if (!productArr.length) {
-    //   cart.push({
-    //     producName: productName,
-    //     quantity: 1,
-    //   });
-    // } else {
-    //   productArr[0].quantity += 1;
-    // }
-
-    //update cart quantity in up-right corner of amazon.html page:
-    let cartQuantity = 0;
-    cart.forEach((item) => (cartQuantity += item.quantity));
-    document.querySelectorAll('.cart-quantity').forEach((cartQuant) => {
-      cartQuant.innerText = cartQuantity;
-    });
-
-    // console.log(cart);
+    addToCart(productId);
+    updateCartQuantity();
   });
 });

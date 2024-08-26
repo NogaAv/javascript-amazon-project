@@ -246,3 +246,41 @@ and if I want to remove ALL the data in the loval storage:
     localStorage.clear();
 
 14:43:30
+
+MVC - Design Pattern that lets us orgenize our code:
+===================================================
+Inside checkout.js:
+We put all the code that generates the web page into function: renderOrderSummary(),
+and whenever the delivery-options updated, this function calls itself (recursion). Why?
+
+This delivery option will make changes to several elements in the page:
+i.e- to the Delivery date title, and to the Order Summary where the cost is updated.
+This is why we better re-run the whole function that renders the page as whole:
+      renderOrderSummary(); //RECURSION
+
+Instead of using the DOM and change the elements directly, we re-run the code to
+build the page again whenever it is updated.
+renderOrderSummary();
+
+This technique where we:
+1. Update the data 
+2. Regenerates all the HTML 
+is called = MVC = Model-View-Controller
+
+In MVC, We split our code into 3 parts:
+1. Model = All the code that saves and manages the data (in our project its: 'cart.js')
+2. View = This is code that Takes the data and displays it on the page (in 'checkout.js'-> renderOrderSummary()) 
+3. Controller = runs some code when we interact with the page (The event-listeners)
+
+These 3 parts interact with eachother in a loop: 
+
+Model ---> View ---> Controller --
+ |_______________________________|
+
+first, we use Model to generate the view (we took the model/data which is our cart, and 
+in chckout.js we generated the View) 
+Then, when we interact with the view, it runs the Controller 
+Then, the Controller will update the Model (The EventListeners render the webpage)
+And finally, we use the updated Model to generate the view (renderOrderSummary())
+
+We use MVC because = This way it makes sure the page always matches the data

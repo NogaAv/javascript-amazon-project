@@ -1,4 +1,4 @@
-14 - Modules:
+Lesson 14 - Modules:
 --------------
 Modules = a better way to organize our code.
 
@@ -105,7 +105,7 @@ Create the Checkout Page.
 
 we created folder: utilsunder scripts folder
 
-13:32 - make delete btn in the Checkout page responsive
+13:32 - make delete btn in the Checkout page responsive/interactive
 
 In the checkout page: When we click the delete button:
 1. The products are removed from the cart (we created removeFromCart() function in cart.js)
@@ -136,3 +136,112 @@ We added function to save cart to the localStorage in the cart.js.
 
 **Whenever we upfdate the cart, we need to save it to localStorage, so it doesn't reset when we 
 refresh the page.
+===========================================================================================
+
+Lesson 15- 
+External Liberaries, MVC, Finish the Checkout Page
+--------------------------------------------------
+External Libraries = code that is outside of our project.
+
+Why we use external libraries?
+- let us share code
+- save time
+- avoid duplicating work 
+
+How to use external libs in our code?
+========================================
+1) Onw way is adding the link to the lib code with <script> tag:
+Example:
+    - we added a script tag to the checkout.html with src="" that points to url of js file with 
+    function hello() implemented:
+        <script src="https://unpkg.com/supersimpledev@1.0.1/hello.js"></script>
+        <script type="module" src="scripts/checkout.js"></script>
+    - we called hello() from the checkout.js file 
+    - now when navigating to the checkout page on the website, the console runs the function and we see 'hello' in console.
+
+
+Less preferred option to load external libs: with <script> tag (since it may result in 
+naming conflict)-
+* we load external libs using the <script> tag.
+* We add the script tag before any other script tag so that the functions in the lib will be 
+available to out code.
+
+
+2) Best practice for loading external libs - using Modules:
+How do we use external libs and Modules togather? = 
+-------------------------------------------------
+We will use special version of the liberary, called:  'ESM Version'.
+
+ESM Version = 
+ESM = EcmaScript Module (EcmaScript = Javascript)
+It is a version that works with Javascript Modules.
+
+The same 'hello()' function but this time link to the ESM version: 
+    https://unpkg.com/supersimpledev@1.0.1/hello.esm.js 
+It's actually the same implementation but with the 'export' keyword infront of the function.
+This 'export' turns the function to ESM version.
+How to use this ESM version in our code? 
+Instead of script tag -> At the top of the js file where we want to call the function, we just 
+add the import of the module and the path is a URL:
+    import { hello } from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
+next, just call 'hello()' in code.
+
+**Keep in mind: Not every lib has ESM version, so for some libs we still need to use <script> tag
+
+How do you put code on the Internet? any HTML, js, css files?
+--------------------------------------------------------------
+Watch video: 'How to put an HTML website online (on the Internet), on: 
+    https://www.youtube.com/watch?v=p1QU3kLFPdg
+
+
+
+===================================================================
+Using external lib: 'Dayjs'
+---------------------------
+The following link includes the compressed code of the DayJS lib to be added in <script> tag.
+Compressed code makes the code load faster to our code
+MINIFICATION = The process of compressing the code (minify the code)
+https://unpkg.com/dayjs@1.11.10/dayjs.min.js
+
+This version of the code we can add to script tag.
+But to add as Module:
+We will instead write the folloing import at the top of the checkout.js:
+    import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
+and call dayjs() in our code.
+NOTE: We did not write 'import {dayjs} ...' with {}, why?
+
+This is called:
+DEFAULT EXPORT (vs NAMING EXPORT which is the regular export and import using {})= 
+----------------------------------------------------------------------------------
+- another way of exporting 
+- we can use it when we only want to export 1 thing from a file.
+
+Some peaple like using default exports because they feel that exporting only 1 thing from a file 
+makes the code cleaner. However in my code it is my choice to use whatever I want.
+
+
+Handeling the 'choose a delivary option' in the checkout page:
+- The cheapset option - FREE shipping takes: 7 days to deliver
+- 4.99$: takes 3 days to deliver 
+- 9.99$: takes 1 day to deliver 
+
+so How to get these dates:
+1. Get today's date 
+2. Do calculation (add 7 days, 3 days...)
+3. display the date in easy-to-read format 
+We will use popular liberary for this, called: 'DayJS'
+
+===========================
+14:20:30
+'Normalizing the data' = we save the delivery-option seperately from the cart, in order to 
+avoid duplicating the data-
+We added under 'data' folder: 'deliveryOptions.js' file
+
+* Removing manually data from local-storage:
+If I want to remove data from local-storage of the webpage:
+In the inspect->console:  
+to remove specific data, like the cart(I want to test the default values in cart when it's empty):
+    localStorage.removeItem('cart');
+and if I want to remove ALL the data in the loval storage:
+    localStorage.clear();
+

@@ -1,5 +1,5 @@
 import { cart, addToCart } from '../data/cart.js';
-import { formatCurrency } from '../scripts/utils/money.js';
+import formatCurrency from '../scripts/utils/money.js';
 /*
   //Another way to import: Import all the file content and rename, them I can access any func or variable:
 

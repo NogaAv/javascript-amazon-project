@@ -1,5 +1,7 @@
 export function formatCurrency(priceCents) {
-  return (priceCents / 100).toFixed(2);
+  //.toFix() has an issue with rounding numbers ending with 5. like: 6.05
+  //so to fix that we added 'Math.round()' before using the toFix()
+  return (Math.round(priceCents) / 100).toFixed(2);
 }
 
 // export function test() {

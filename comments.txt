@@ -245,3 +245,4 @@ to remove specific data, like the cart(I want to test the default values in cart
 and if I want to remove ALL the data in the loval storage:
     localStorage.clear();
 
+14:43:30

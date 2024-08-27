@@ -335,6 +335,33 @@ So- this is another way to load external library to our project- By downloading
 the code and putting it in our project. It's usefull when external lib has 
 many different files, like this lib.
 
+Inside jasmine folder:
+'SpecRunner.html' - is the file that loads all the tests (so it does the same thing as our 
+tests/tests.html we created before).
+in jasmine: 'spec'='test'
+We renamed this file to tests.html and when we open this file with Live-server, we see 
+a nice website that presents the testings.
+so jasmin:
+- create test suite 
+- create tests (spec filder is the test folder) 
+- compare values and display result 
+
+From tests.html we delete the default example scripts tags:
+  <!-- include source files here... -->
+  <script src="src/Player.js"></script>
+  <script src="src/Song.js"></script>
+
+  <!-- include spec files here... -->
+  <script src="spec/SpecHelper.js"></script>
+  <script src="spec/PlayerSpec.js"></script>
+
+we also delete the src folder and the spec folder(contains example code).
+So, aventually we have inside test-jasmin folder: 
+the lib folder, tests.html (and license file).
+
+Under the main test-jasmine folder we create our files for testing
+
+
 
 
 

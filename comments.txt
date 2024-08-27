@@ -393,10 +393,50 @@ we better clear the storage to not mess anything up:
         localStorage.clear()
 
 
+16:51:30-
+Up until now we made:
+'Unit Tests' = testing 1 piece of the code.
+
+But what if we want to test a whole page, or part of the page? This is more complicated test, 
+called:
+'Integration Test' = tests many units/pieces of code working together.
+
+like: renderOrderSummary() function inside orderSummary.js file. This function runs many other functions and pieces of code.
+
+renderOrderSummary() creates part of the checkout page. 
+When we test a page or part of page, we have 2 things to test:
+1. How the page looks
+2. How the page behaves
+
+How do we test how the page looks?
+-----------------------------------
+the page html order summary section is created and loaded in orderSummary.js, with line:
+
+      document.querySelector('.js-order-summary').innerHTML = cartSummaryHTML;
+so- inside the 'tests.html' file, we will add <div><div> inside body, and this div 
+will serve as a container, imitating the div with the class="js-order-summary" in the project's 
+code. 
+we use container inside the <body> and not insert to the body itself because it may contain 
+the results of jasmine to be displayed in the jasmine webpage.
+
+so we added :
+        <div class="js-test-container"></div>
+and now we can query and use that container in our testing code.
 
 
+17:27:10-
 
+HOOKS:
+======
+Hook - Lets us run some code for each test.
+'beforeEach' hook = It's a setup code we can run before running test.
 
+Hooks in Jasmine:
+=================
+beforeEach() = runs code before EACH test
+afterEach() = runs code after EACH test (gppd gor cleanup code)
+beforeAll() = runs code before ALL tests
+afterAll() = runs code after ALL tests
 
 
 

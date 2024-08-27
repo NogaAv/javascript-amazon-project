@@ -438,7 +438,13 @@ afterEach() = runs code after EACH test (gppd gor cleanup code)
 beforeAll() = runs code before ALL tests
 afterAll() = runs code after ALL tests
 
+Process when we run code:
+--------------------------
+1. Make changes to code 
+2. Re-run the tests 
+3. Save changes to Git
 
+we renamed 'tests-jasmine' to 'tests'
 
 
 

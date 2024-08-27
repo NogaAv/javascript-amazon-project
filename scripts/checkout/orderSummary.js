@@ -11,9 +11,9 @@ import { renderPaymentSummary } from './paymentSummary.js';
 
 //function from the 'dayjs' lib we added to checkout.html script tag.
 //See documentation to learn about how to use the lib
-const today = dayjs();
-const delivaryDate = today.add(7, 'days');
-console.log(delivaryDate.format('dddd, MMMM D'));
+// const today = dayjs();
+// const delivaryDate = today.add(7, 'days');
+// console.log(delivaryDate.format('dddd, MMMM D'));
 
 export function renderOrderSummary() {
   let cartSummaryHTML = '';

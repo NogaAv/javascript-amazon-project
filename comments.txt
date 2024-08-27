@@ -284,3 +284,35 @@ Then, the Controller will update the Model (The EventListeners render the webpag
 And finally, we use the updated Model to generate the view (renderOrderSummary())
 
 We use MVC because = This way it makes sure the page always matches the data
+
+
+Lesson 16 - TESTING:
+======================
+1. Manual Testing = When we manualy open our website and try our code. 
+Disadvantages: 
+- Hard to test every situation 
+- Hard to re-test the code 
+
+Best practice:
+2. Automated Testing = Using code to test code 
+
+We created upper-level folder: 'tests'. It will containg js files corresponding to each 
+code we want to test.
+
+REMEMBER: 
+We can't run javascript files directly. We need to load js files from html file.
+so we create html file for the js test files to be loaded there to the web (run the tests.html 
+with Live-server).
+
+Inside tests/tests.html we added the script tag to load the js test file.
+Note: we need to add type="module" because we want to use the ESM feature:
+    <script type="module" src="monyTest.js"></script>
+
+How many test cases should we have?
+1. Basic test cases = tests if the code is working 
+2. Edge cases = test with values that are tricky 
+
+Inside the tsets.js:
+Naming conventions for the tests titles: To describe what the code is doing.
+We should group related tests:
+'test suite' = group of related tests

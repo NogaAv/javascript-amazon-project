@@ -316,3 +316,32 @@ Inside the tsets.js:
 Naming conventions for the tests titles: To describe what the code is doing.
 We should group related tests:
 'test suite' = group of related tests
+
+15:58:40-
+Testing Framework:
+================== 
+It's external library that helps us write tests easier. 
+We will use a popular testing framework called: 'Jasmine' 
+
+Jasmine 
+--------
+Link for download: https://github.com/jasmine/jasmine/releases/tag/v5.1.1 
+Docs: https://jasmine.github.io/api/5.1/global 
+
+we downloaded the zip file: 'jasmine-standalone-5.1.1', extracted the folder and added it to our project. We renamed the folder to: 'tests-jasmine' in order 
+to make it clear this folder contains tests created by jasmine.
+
+So- this is another way to load external library to our project- By downloading 
+the code and putting it in our project. It's usefull when external lib has 
+many different files, like this lib.
+
+
+
+
+
+
+
+
+
+
+

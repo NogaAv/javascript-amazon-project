@@ -359,7 +359,38 @@ we also delete the src folder and the spec folder(contains example code).
 So, aventually we have inside test-jasmin folder: 
 the lib folder, tests.html (and license file).
 
-Under the main test-jasmine folder we create our files for testing
+Under the main 'test-jasmine' folder we create our files for testing and we should keep 
+the folder structure similar to the project tested, so for example:
+The mony.js file is located under Utils folder. so- in our jasmine folder we create monyTest.js 
+under Util folder as well. to match the structure of folders and files.
+
+Instructor's mistake:
+** Instructure note:  In our project- There is mistake in the structure of the project:
+The data folder (that contains js files) should be under the 'script' folder and not outside it.
+For this reason now the jasmin folder inner structure doesn't match exactly the project structure, but it should (i.e- the data and Util folders should be at the same level in the project, just as it is in the testing jasmin folder). So the structure in jasmin we made is the correct one.
+
+'Flaky Test' = test that sometimes passes and sometimes fails.
+
+'Mocks' = a feature of jasmine, lets us replace a method with a fake version.
+spyOn() - function in jasmine that lets us create Mock 
+    !!NOTE: A mock only latst for 1 test (so for every test I need to use spyOn() if I want to mock)
+spyOn() has special feature - It records every time a method is used, and so we can after check parameters:
+
+//toHaveBeenCalledTimes() - checks how many time localStorage.setItem() was called in the code above. 
+//Note: This only works if the method was mocked by spyOn()
+    expect(localStorage.setItem).toHaveBeenCalledTimes(1);
+
+Also- we can check the values that the mocked calles returned (on docs)
+
+**After we run the testing jasmine and see on jasmine webpage that all tests pass, we CLEAN the localstorage on 
+the webpage - 
+We will remove everything from localStorage, because we want to make sure we start clean.
+NOTE: The jasmine webpage has the same localStorage of our project!-localStorage belongs to a DOMAIN, 
+in our case the domain is: http://127.0.0.1:5501 
+and since both our project and jasmin run by the LiveServer - they have the same localStorage, so after the testing 
+we better clear the storage to not mess anything up:
+    On the jasmine webpage we right-click->Inspect->Console->  and run the command: 
+        localStorage.clear()
 
 
 

@@ -1,4 +1,4 @@
-import formatCurrency from '../scripts/utils/money.js';
+import formatCurrency from '../../scripts/utils/money.js';
 
 //jasmin function- creates a test-suite:
 describe('test suite: formatCurrency', () => {

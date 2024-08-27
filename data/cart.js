@@ -1,11 +1,13 @@
 //with export: this variable can be accessed outside cart.js
-export let cart = getFromStorage();
+export let cart;
 
-function getFromStorage() {
+loadFromStorage();
+
+export function loadFromStorage() {
   //If the cart is empty we don't want the localStorage to return null, so we give default
   // return JSON.parse(localStorage.getItem('cart')) || [];
 
-  let cart = JSON.parse(localStorage.getItem('cart'));
+  cart = JSON.parse(localStorage.getItem('cart'));
   if (!cart) {
     //we create default values to make the development easier when we reproduce this page:
     cart = [
@@ -21,7 +23,6 @@ function getFromStorage() {
       },
     ];
   }
-  return cart;
 }
 
 function saveToStorage() {

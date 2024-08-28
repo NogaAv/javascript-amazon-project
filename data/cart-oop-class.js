@@ -16,17 +16,17 @@ class Cart {
   cartItems;
   //'localStorageKey' can not be passed as parameter like in the function version. so we add it as property:
   // localStorageKey = undefined;
-  localStorageKey;
+  #localStorageKey; //# - makes it a - 'private property' (as opposed to 'public property')
 
   //Ctor- unique function that is called automatically when an object is created
   constructor(localStorageKey) {
     //At this stage = the object already created
-    this.localStorageKey = localStorageKey;
-    this.loadFromStorage();
+    this.#localStorageKey = localStorageKey;
+    this.#loadFromStorage(); //This method should only be called from inside the class, so private
   }
 
-  loadFromStorage() {
-    this.cartItems = JSON.parse(localStorage.getItem(this.localStorageKey));
+  #loadFromStorage() {
+    this.cartItems = JSON.parse(localStorage.getItem(this.#localStorageKey));
     if (!this.cartItems) {
       this.cartItems = [
         {
@@ -44,7 +44,7 @@ class Cart {
   }
 
   saveToStorage() {
-    localStorage.setItem(this.localStorageKey, JSON.stringify(this.cartItems));
+    localStorage.setItem(this.#localStorageKey, JSON.stringify(this.cartItems));
   }
   addToCart(productId) {
     let matchingItem;
@@ -116,3 +116,8 @@ console.log(businessCart);
 //With class - We can also check if an object is an Instance of a class:
 console.log(cart instanceof Cart); //true
 console.log(businessCart instanceof Cart); //true
+
+//This code is problematic. To prevent this we use private properties and methods:
+// cart.localStorageKey = 'aaa';
+
+// cart.#localStorageKey = 'test'; //in console: 'SyntaxError: Private field '#localStorageKey' must be declared in an enclosing class'

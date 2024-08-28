@@ -499,6 +499,20 @@ generate object.
     * It is a unique function that is called automatically when an object is created.
     * It has to be named "constructor".
     * It should not return anything.
+
+Special features of class:
+Private properties and methods:
+--------------------------------
+Some properties and methods should not be available outside the class. 
+for example- this is a problem if outside the class a user does this and changes localStorage:
+    cart.localStorageKey = 'aaa'; 
+so we add '#' infront of the property name, and make it 'private property' as opposed to 
+'public property'.
+
+field = property
+
+methods can also be private. for example: loadFromStorage() should not be called from outside the class. so we add #:
+
     
 
 

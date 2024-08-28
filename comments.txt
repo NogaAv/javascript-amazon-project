@@ -512,6 +512,42 @@ so we add '#' infront of the property name, and make it 'private property' as op
 field = property
 
 methods can also be private. for example: loadFromStorage() should not be called from outside the class. so we add #:
+Now - We will Use classes in our project:
+we will need to replace every place we use cart in our project with the class cart.
+However - The istructor left this as challange exercise for me.
+
+
+18:29:50-
+We will now - Keep working on Home-Page:
+
+inside products.js we have array ob objects, each object represents an object.
+We will learn a technique = 
+Converting an object into a class:
+-----------------------------------
+We will use a class to generate these objects.
+
+in products.js-
+Technique demonstrated by Instructor:
+"Converting an object into a class":
+------------------------------------
+We sent the class constructor an object as whole, and the class converts it to class.
+We actually send an object and wrap that object with a class.
+The reason we do this =
+Classes has more features then object, like: we can add methods, private properties and methods.
+
+With this technique we get the same object as before, but enhanced version. (It has some extra features)
+
+Now, after converting the regular objects to class-objects, We added to product 
+class Methods:  getStarsUrl() and getPrice() 
+and then- we went back to 'amazon.js' and 'orderSummary.js' and used there these methods inside 
+html ctring construction. This makes the code cleaner.
+
+Lastely - we open test.html with LiveServer to make sure the code still works and that all the 
+tests pass
+
+
+
+
 
     
 

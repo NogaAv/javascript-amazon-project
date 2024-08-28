@@ -106,11 +106,11 @@ const cart = new Cart('cart-oop'); //we send parameters for constructor in this 
 const businessCart = new Cart('cart-business');
 
 //for TESTINGS:
-cart.addToCart('83d4ca15-0f35-48f5-b7a3-1ea210004f2e');
+cart.addToCart('83d4ca15-0f35-48f5-b7a3-1ea210004f2e'); //Only after first add I see the passed key-name in the localStorage in webpage
 console.log(cart);
 
 //for TESTINGS:
-// businessCart.addToCart('83d4ca15-0f35-48f5-b7a3-1ea210004f2e');
+businessCart.addToCart('83d4ca15-0f35-48f5-b7a3-1ea210004f2e');
 console.log(businessCart);
 
 //With class - We can also check if an object is an Instance of a class:

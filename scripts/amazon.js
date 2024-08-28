@@ -49,11 +49,11 @@ import { products } from '../data/products.js';
 //   },
 // ];
 
-const starsImg = {
-  _40: 'images/ratings/rating-40.png',
-  _45: 'images/ratings/rating-45.png',
-  _50: 'images/ratings/rating-50.png',
-};
+// const starsImg = {
+//   _40: 'images/ratings/rating-40.png',
+//   _45: 'images/ratings/rating-45.png',
+//   _50: 'images/ratings/rating-50.png',
+// };
 
 //Looping through the array:
 let productsHTML = '';
@@ -68,11 +68,11 @@ products.forEach((product, index) => {
     <div class="product-name limit-text-to-2-lines">${product.name}</div>
 
     <div class="product-rating-container">
-      <img class="product-rating-stars" src="${starsImg['_' + product.rating.stars * 10]}" />
+      <img class="product-rating-stars" src="${product.getStarsUrl()}" />
       <div class="product-rating-count link-primary">${product.rating.count}</div>
     </div>
 
-    <div class="product-price">$${formatCurrency(product.priceCents)}</div>
+    <div class="product-price">$${product.getPrice()}</div>
 
     <div class="product-quantity-container">
       <select>

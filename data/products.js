@@ -1,3 +1,5 @@
+import formatCurrency from '../scripts/utils/money.js';
+
 export function getProduct(productId) {
   let matchingProduct;
 
@@ -9,6 +11,81 @@ export function getProduct(productId) {
   return matchingProduct;
 }
 
+/*
+//In this following comment, I created class Product, and Rating and created product1
+//from it - This is regular technique (like in java, c++ etc..)
+class Rating {
+  constructor(stars, count) {
+    this.stars = stars;
+    this.count = count;
+  }
+}
+class Product {
+  constructor(id, image, name, rating, priceCents, keywords) {
+    this.id = id;
+    this.image = image;
+    this.name = name;
+    this.rating = rating;
+    this.priceCents = priceCents;
+    this.keywords = keywords;
+  }
+}
+
+const product1 = new Product('e43638ce-6aa0-4b85-b27f-e1d07eb678c6', 
+  'images/products/athletic-cotton-socks-6-pairs.jpg', 
+  'Black and Gray Athletic Cotton Socks - 6 Pairs', 
+  new Rating(4.5, 87), 
+  1090, ['socks', 'sports', 'apparel']);
+
+console.log(product1);
+*/
+
+// Technique demonstrated by Instructor:
+// "Converting an object into a class":
+// ------------------------------------
+// We sent the class constructor an object as whole, and the class converts it to class.
+// We actually send an object and wrap that object with a class.
+// The reason we do this =
+// Classes has more features then object, like: we can add methods, private properties and methods
+class Product {
+  constructor(productDetails) {
+    this.id = productDetails.id;
+    this.image = productDetails.image;
+    this.name = productDetails.name;
+    this.rating = productDetails.rating;
+    this.priceCents = productDetails.priceCents;
+    this.keywords = productDetails.keywords;
+  }
+
+  getStarsUrl() {
+    return `images/ratings/rating-${this.rating.stars * 10}.png`;
+  }
+
+  getPrice() {
+    return formatCurrency(this.priceCents);
+  }
+}
+
+const product1 = new Product({
+  id: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
+  image: 'images/products/athletic-cotton-socks-6-pairs.jpg',
+  name: 'Black and Gray Athletic Cotton Socks - 6 Pairs',
+  rating: {
+    stars: 4.5,
+    count: 87,
+  },
+  priceCents: 1090,
+  keywords: ['socks', 'sports', 'apparel'],
+});
+
+//console.log(product1); //we can see the object as before, but with extra features of classes:
+// (in console we see '[[Prototype]]: Object' which is the place for methods to be located in object)
+
+//---------------------------------------
+//To convert all the objects in this products array to class, we can write in front
+//of every object: new Product({..the object..});
+//However we will need to repeate this code for every object in the array. So instead, we use
+//Array.map()
 export const products = [
   {
     id: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
@@ -480,4 +557,8 @@ export const products = [
     priceCents: 2400,
     keywords: ['sweaters', 'hoodies', 'apparel', 'mens'],
   },
-];
+].map((productDetails) => {
+  return new Product(productDetails); //map creates new array, and we need to return if we want it to be inserted to that array
+});
+
+//console.log(products); //we get an array of class-objects, instead of regular object

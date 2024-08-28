@@ -477,5 +477,32 @@ change the object's name - we changed it to: businessCart, change the name of ca
 
 BUT - This way we're copy-pasting a lot of code. It makes our code messy and hard to manage.
 We will resolve that by:
-2) Using a function to generate multiple objects.
+2) Using a function to generate multiple objects:  'cart-oop-function.js'
+
+3) Better way for generating objects:
+CLASS:
+class = Object generator
+Classes are cleaner and has more features than a function.
+
+With classes, each object of a class is called: Instance of a class:
+    const cart = new Cart();   //cart is instance of Cart class 
+
+We can also check if an object is an Instance of a class:
+    console.log(cart instanceof Cart);  //true
+
+Benifits of classes:
+--------------------
+- A class looks like the object that it generates, and it is cleaner than using function to 
+generate object.
+- Classes have extra features for Object-Oriented Programming:
+    - Constructor = Lets us put setup code inside the class. 
+    * It is a unique function that is called automatically when an object is created.
+    * It has to be named "constructor".
+    * It should not return anything.
+    
+
+
+
+
+
 

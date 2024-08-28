@@ -80,11 +80,11 @@ function Cart(localStorageKey) {
   return cart;
 }
 
-let cart = Cart('cart-oop');
+const cart = Cart('cart-oop');
 cart.loadFromStorage();
 
 //Using OOP and function to create object- We easily create new cart for business
-let businessCart = Cart('cart-business');
+const businessCart = Cart('cart-business');
 businessCart.loadFromStorage();
 
 //for TESTINGS:

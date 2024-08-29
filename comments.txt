@@ -546,10 +546,114 @@ Lastely - we open test.html with LiveServer to make sure the code still works an
 tests pass
 
 
+18:52:20 = 
+Lesson:  INHERITANCE:
+======================
+Inheritance - lets us reuse code between classes.
+
+In the Home page, we have different TYPES of products:
+                         ----------------
+For example- T-shirt and Toaster:
+T-shirt is 'clothing' product, and Toaster is 'appliances' product
+Both are products: They have name, price and rating, 
+But They are a MORE SPECIFIC type of product. 
+
+clothing has the regular properties of product, but it can also have specific properties, like:
+a size-chart. So, a class for such product would look like this:
+
+    class Clothing{
+        id;
+        image;
+        name;
+        rating;
+        priceCents;
+
+        sizeChartLink;    //<- specific for clothing.
+    }
+
+BUT, If I add this class as is in addition to the Product class we have, we will be 
+duplicating code, since both classes has common properties (the base product properties) = 
+These is why we have the OOP feature: Inheritance 
+Inheritance = allows class to get properties and methods from another class, so we don't need 
+to copy redundant code. 
+So instead the class described up here, we will use inheritance:
+
+   class Clothing extends Product{
+        //Get all properties of Product
+
+        sizeChartLink;
+
+        constructor(productDetails){
+        //Get the constructor of Product
+
+          this.sizeChartLink = productDetails.sizeChartLink;
+        }
+    }
+
+Inside products.js we added inheriting child class: class Clothing
+
+*We use inheritance when we have:
+One class is a MORE SPECIFIC TYPE of another class.
+Inheritance = Lets us reuse code between classes.
+
+super(); - calls the contructor of the parent class.
+
+*NOTE: If we don't create a constructor, by default it will run the parent constructor:
+so-
+
+class Clothing extends Product{                       class Clothing extends Product{
+                                --By Default is:-->     constructor(param1){
+}                                                          super(param1);
+                                                           }
+                                                      }
 
 
+So now, we have Product class and Clothing class. 
+How do we know what product in the products array we should convert to Product class and which 
+to convert to Clothing class?
+---------------------------- 
+Discriminator Property = property that tells us to which class we should convert it to.
 
-    
+In our products array, some have the property:
+    type: 'clothing',
+this will serve as the discriminator property.
+now, in the .map() we check if this property exists in the current object and accordingly 
+call the Clothing() constructor.
+
+Next - we Display the size chart link on the page:
+On home page, wherevert there is a clothing product - we will display size-chart 
+undernith.
+We do that using inheritance => we added to the child Clothing class a method: 
+extraInfoHTML() 
+And since we call that method to EVERY object in the products array when we create 
+the amazon home-page, we also need to add that method in the parent class, only there 
+it returns '' empty string:
+In amazon.js:
+
+// for product of type Product it returns '', for product of type Clothing it 
+// returns link
+    ${product.extraInfoHTML()}
+    <div class="product-spacer"></div>
+
+NOTE - Don't get confused:
+The following iterating code inside 'amazon.js':
+    products.forEach((product, index) => {..} 
+Iterates through the objects in a way that 'product' may be a reference to Clothing 
+object or a reference to Product object. SO- when calling the method:
+    product.extraInfoHTML()
+The correct method is induced according to the type of object. 
+
+This is called:
+ POLYMORPHISM = use a method without knowing the class.
+
+OVERRIDING:
+--------------
+extraInfoHTML() - In child class it Overrides the parent method.
+Method Overriding: method override/replace the parent's method 
+
+If we really want to access the parent class from the child class, we use super 
+inside the child object:
+    super.extraInfoHTML()
 
 
 

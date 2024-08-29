@@ -64,19 +64,63 @@ class Product {
   getPrice() {
     return formatCurrency(this.priceCents);
   }
+
+  extraInfoHTML() {
+    return '';
+  }
 }
 
-const product1 = new Product({
-  id: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
-  image: 'images/products/athletic-cotton-socks-6-pairs.jpg',
-  name: 'Black and Gray Athletic Cotton Socks - 6 Pairs',
-  rating: {
-    stars: 4.5,
-    count: 87,
-  },
-  priceCents: 1090,
-  keywords: ['socks', 'sports', 'apparel'],
-});
+//INHERITANCE:
+class Clothing extends Product {
+  constructor(productDetails) {
+    super(productDetails);
+    if (productDetails.type === 'clothing') {
+      this.sizeChartLink = productDetails.sizeChartLink;
+    }
+  }
+
+  extraInfoHTML() {
+    // super.extraInfoHTML();  //calling parent method
+    return `
+      <a href="${this.sizeChartLink} target="_blank">Size chart</a>
+    `;
+  }
+}
+
+//--------------------------------------------
+////practice code-3
+//For Testing:
+// const tshirt = new Clothing({
+//   id: '83d4ca15-0f35-48f5-b7a3-1ea210004f2e',
+//   image: 'images/products/adults-plain-cotton-tshirt-2-pack-teal.jpg',
+//   name: 'Adults Plain Cotton T-Shirt - 2 Pack',
+//   rating: {
+//     stars: 4.5,
+//     count: 56,
+//   },
+//   priceCents: 799,
+//   keywords: ['tshirts', 'apparel', 'mens'],
+//   type: 'clothing',
+//   sizeChartLink: 'images/clothing-size-chart.png',
+// });
+
+//console.log(tshirt);
+//console.log(tshirt.getPrice());
+//console.log(tshirt.sizeChartLink);
+
+//-----------------------------------------------
+////practice code-2:
+// const product1 = new Product({
+//   id: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
+//   image: 'images/products/athletic-cotton-socks-6-pairs.jpg',
+//   name: 'Black and Gray Athletic Cotton Socks - 6 Pairs',
+//   rating: {
+//     stars: 4.5,
+//     count: 87,
+//   },
+//   priceCents: 1090,
+//   keywords: ['socks', 'sports', 'apparel'],
+// });
 
 //console.log(product1); //we can see the object as before, but with extra features of classes:
 // (in console we see '[[Prototype]]: Object' which is the place for methods to be located in object)
@@ -558,7 +602,9 @@ export const products = [
     keywords: ['sweaters', 'hoodies', 'apparel', 'mens'],
   },
 ].map((productDetails) => {
-  return new Product(productDetails); //map creates new array, and we need to return if we want it to be inserted to that array
+  return productDetails.type === 'clothing' ? new Clothing(productDetails) : new Product(productDetails);
+
+  //return new Product(productDetails); //map creates new array, and we need to return if we want it to be inserted to that array
 });
 
 //console.log(products); //we get an array of class-objects, instead of regular object

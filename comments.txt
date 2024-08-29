@@ -655,6 +655,108 @@ If we really want to access the parent class from the child class, we use super
 inside the child object:
     super.extraInfoHTML()
 
+**Testing classes = Is the same as normal tests.
+
+Built-in Classes:
+----------------
+new Date() = generates an object that represents the current date.
+
+We used earlier - DayJS library:
+DayJS uses this Date class behind the scenes.
+DayJS gives us a lot of extra features.
+- so we use DayJS instead of Date directly.
+
+'this' keywoed in JavaScript:
+-----------------------------
+* As we said - "this" lets an object access its own properties.
+In JS - "this" can actually be used ANYWHERE in our code, but if it's outside an object, we get:
+'undefined'
+Originally in javascript, "this"=window object
+However, this behaviour caused alot of confusion, therefore:
+when they released Javascript modules, inside a module, "this"=undefined.
+
+* We cannot use 'this' inside regular object like this:
+
+    const object2 = {
+    a: 2,
+    b: this.a, //invalid code - 'this' is not yet defined here
+    };
+
+* Use "this" inside function:
+    function logThis() {
+      console.log(this);
+    }
+    logThis(); //undefined
+again, we are NOT inside an object, so there's nothing for "this" to point to.
+BUT - "this" has special feature - and inside a function we can change "this" to whatever we want
+
+logThis.call() //logThis.call() runs the function just the same as logThis(), only we can 
+set the value of "this" to whatever we want. So-
+
+logThis.call('hello'); //hello
+
+So- logThis.call() enables passing to function value for "this" as first parameter.
+
+   function logThis(param1, param2) {
+      console.log(this);
+    }
+
+  logThis("hello"); //undefined
+  logThis.call("hello", "world"); //hello
+
+* Arrow functions do NOT change the value of "this"
+"this" inside an arrow-function- keeps the value that it has outside the arrow-function.
+
+WHY are Arrow functions designed this way?  (-i.e- to keep 'this' with the value it has outside the arrow-function?):
+--------------------
+JS had a common problem in the past:
+see code:
+
+const object3 = {
+    method(){
+        console.log(this); //When we are inside the method, 'this' points to the object
+
+        [1, 2, 3].foreach(function() {
+         console.log(this); //But here, inside the callback, it points to undefined
+        })    
+    }
+};
+
+When we are inside the method, 'this' points to the object. 
+But when we are trying to do the foreach loop, there, the 'this' doesn't point to the object anymore, it points to undefined, because this 'this' is inside regular function, which 
+has no access to the 'this' of the object.
+Remember - In a regular function - 'this' is undefined.
+SO - To solve this, We have the Arrow-function.
+With Arrow function, the 'this' is equale to whatever it's value before the arrow function call.
+Arrow functions do not change the value of "this". 
+
+const object3 = {
+    method(){
+        console.log(this); //When we are inside the method, 'this' points to the object
+
+        [1, 2, 3].foreach(function => {
+         console.log(this); //Here, inside the arrow-function, 'this' still points to object
+        })    
+    }
+};
+
+so- Arrow functions were designed to avoid accidently overriding "this".
+
+To summarize the "this":
+1. Inside a method, "this" points to the outer object.
+2. Inside a function, this=undefined, But we can change that with functionName()call(param);
+3. Arrow functions do not change the value of "this".
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -125,11 +125,57 @@ class Clothing extends Product {
 //console.log(product1); //we can see the object as before, but with extra features of classes:
 // (in console we see '[[Prototype]]: Object' which is the place for methods to be located in object)
 
+/*
+//Example for using built-in class. In practice we prefere to use the DayJS lib instead
+
+const date = new Date(); //Date - Built-in Class of javascript
+console.log(date); //Thu Aug 29 2024 11:34:23 GMT+0300 (Israel Daylight Time)
+console.log(date.toLocaleTimeString()); //11:35:54
+*/
+
+/* //'this' keyword:
+//outside object, this is undefined. before, in js, it used to point to 'window' object.
+console.log(this); //undefined
+
+const object2 = {
+  a: 2,
+  b: this.a, //invalid code - 'this' is not yet defined here
+};
+
+//This following logs:  'TypeError: Cannot read properties of undefined (reading 'a')'
+//Why?  Because I cannot reffer to "this" inside the object like this while it is still
+//being constructed/defined
+console.log(object2.b);
+
+//"this" inside function also results in undefined (not inside an object)
+//BUT - "this" has special feature, and inside a function we can change "this" to whatever we want:
+
+function logThis() {
+  console.log(this);
+}
+logThis(); //undefined
+logThis.call('hello'); //hello
+//logThis.call() runs the function just the same as logThis(), only we can
+//set the value of "this" to whatever we want: The first argument we pass inside call()
+//is the "this" in function
 //---------------------------------------
 //To convert all the objects in this products array to class, we can write in front
 //of every object: new Product({..the object..});
 //However we will need to repeate this code for every object in the array. So instead, we use
 //Array.map()
+
+// Arrow functions do NOT change the value of "this"!
+this; //here it's undefined. since it is outside any object
+//"this" keeps the undefined value that it had outside the arrow-function
+const object3 = {
+  method: () => {
+    console.log(this); //will keep the undefined value it has outside this arrow-function, because of it is being an arrow-function. Intentionally so (see comments.txt for why)
+  },
+};
+
+object3.method(); //undefined
+object3.method.call('hello'); //undefined
+*/
 export const products = [
   {
     id: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',

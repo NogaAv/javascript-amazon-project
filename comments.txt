@@ -745,7 +745,193 @@ so- Arrow functions were designed to avoid accidently overriding "this".
 To summarize the "this":
 1. Inside a method, "this" points to the outer object.
 2. Inside a function, this=undefined, But we can change that with functionName()call(param);
-3. Arrow functions do not change the value of "this".
+3. Arrow functions do not change the value of "this". 
+
+
+Lesson-18:  
+Backend
+==========
+Backend - is another computer that manages the data of a website
+On the other hand, the webpage/user-computer called Frontend - where we can see and interact with 
+the products.
+
+How does our computer/frontend send information to the backend?
+When 2 computers are connected to the internet they can send messages to each other using 
+a feature called:
+HTTP = HyperText Transfer Protocol
+and inside http message we can attach information, like our Amazon Order.
+
+Let's send our first HTTP message using javascript - We created onside data folder file 
+for tractice - data/backend-practice.js:
+To send an HTTP message, we will use a built-in class (provided by javascript), called : 
+    XMLHttpRequest
+
+Common types of request we can give to the backend:
+    GET = get some information from the backend.
+    POST 
+    PUT 
+    DELETE 
+
+Using HTTP, we can send a message to any computer connected to the Internet. Now, to locate 
+another computer on the internet, we need to use URL.
+
+URL = Uniform Resource Locator 
+------------------------------ 
+- Like an address, but for the Internet.
+- Helps us locate another computer on the Internet.
+
+URL looks like this:
+https://amazon.com 
+https://youtube.com 
+https://supersimple.dev 
+
+- https - a secure version of the http protocol 
+- after the '://' comes the Domain-name : amazon.com, youtube.com, supersimple.dev 
+
+so, amazon.com points to one of Amazon's backend computers.
+youtube.com points to one of YouTube's backend computers.
+supersimple.dev points to the instructor's backend computer. 
+
+This tutorial's backend computer for practice, located on:
+    https://supersimplebackend.dev 
+Documentations on:
+    https://supersimplebackend.dev/documentation 
+
+after sending the message - we open in checout webpage a new Tab:
+ 'inspect' -> 'Network'
+
+and in the opened network tab, down, we see table (Name, Status, Type...), 
+This table shows us:
+All the HTTP messages that are coming in and out of our computer.
+
+!! Important to note about the Network tab:
+In the Network tab, messages only appear in the table AFTER we open the console. 
+If we send some messages and only then open the console, it will not show up in the tab. 
+So, to make sure our messages we send are recorded in the network tab, first we will open 
+the network tab and refresh the page to re-send those messages.
+19:42:42 
+
+up in the network tab we can search for message by typing inside the "filter" input :
+part of the url we sent message to. 
+like: 'supersimplebackend', and click the supersimplebackend.dev message found.
+after click we get more details on the message - several tabs appear = 
+'Headers' tab- gives us detail about our message/request we sent.
+'Response' tab- Is the response I recieved from the backend. 
+'Preview' tab- It presents the response in an easy to read format
+
+Some terminology:
+"Request" - When we sent message to the backend this message is called request.
+"Response" - Http message the server sends to us after the request sent 
+
+"Request Response Cycle" - Each request we send will get one response from the server.
+It's always 1 request, 1 response.
+
+URL Paths:
+-----------
+We can send different requests to the backend using URL paths.
+URL path - The part in the URL that comes after the domain name. foe example - 
+In this URL, the url-path is '/hello':
+    https://supersimplebackend.dev/hello
+
+In this URL, the url-path is '/products/first':
+    https://supersimplebackend.dev/products/first
+
+In this URL, when there is no url-path, the url-path is '/':
+    https://supersimplebackend.dev
+
+* Each URL path will give us a different response. 
+* A backend only supports a certain set of URL paths.
+If we send a request to a URL path that is not spported, the backend will respond with an error.
+
+Status Code:
+-----------
+Whenever we get a response from the backend, the backend sends us a Status Code which tells us 
+if we succedded or failed. 
+- Status code that starts with 4 or 5 (400, 404, 500) = means the response Failed.
+starting with 4 means it's Our problem (sender's problem)
+starting with 5 means it's the Backend's problem (backend crushed) 
+- Status code that starts with 2 (200, 201, 204) = Succeeded 
+We can also see the status-code in the network tab 
+
+How do we know which URL paths are supported, and which are not?
+----------------------------------------------------------------- 
+There is actually no way to figure out all the URL paths that are supported and this is for a 
+security reason.
+However, Some backends provide a documentation page that lists the URL supported and also the 
+response that they give.
+
+For this tutorial's backend, the documentation is on: 
+    https://supersimplebackend.dev/documentation
+
+Backend API:
+-------------
+The list of all the URL paths supported, is called: The Backend API
+API = application programming interface 
+Interface = How we interact with something 
+
+
+*The backend can response with different types of data.
+---------------------------------------------------------
+- For example:
+    'https://supersimplebackend.dev/hello' returns response with type of text.
+we can go to the 'network' tab and after clicking the 'hello' repsonse -> under 'Headers': 
+we can see it's text:  
+    content-type: text/plain; charset=utf-8
+- another example:
+    'https://supersimplebackend.dev/products/first returns us json type. 
+In the network tab I can see:  
+    content-type:application/json; charset=utf-8 
+When receiving json response we can use JSON.parse() to convert the response into js object. 
+
+JSON.parse() - This allows us to send Javascript object across the Internet, to the backend. 
+
+- another data type the server can send as response is: HTML:
+    'https://supersimplebackend.dev/documentation'
+returns response type of html:
+    content-type:text/html; charset=UTF-8
+and in console we see the html page 
+
+- another type of data the backend can respond to is: Image 
+    'https://supersimplebackend.dev/images/apple.jpg'
+  returns an image. In console we see the the image displayed as text (raw data) so we see random 
+  characters.
+  and in network tab we see the data type:
+    content-type:image/jpeg 
+
+
+Using the browser = same as making a GET request:
+=================================================
+* How can we see that image response as an image and not that raw data - random characters 
+in the console?
+- When we type a URL in the browser, it actually sends a GET request.
+so typing in the browser url, is actually the same thing as writing in our code get request.
+The difference is that when typing in the browser the url, The response is displayed in the webpage in a more usefull way: 
+If the response is image we see the image and not the raw data, also if 
+the respone is html page then we see the html displayed as webpage and not as plain raw text of tagd.
+
+so typing in the browser url:  https://supersimplebackend.dev/images/apple.jpg 
+will display actual image on an apple 
+
+and if I type in the browser url: 
+    https://supersimplebackend.dev 
+then the webpage display the response from the server as text:
+
+    Hello! This is SuperSimpleDev's backend.
+
+    Documentation page:
+    https://supersimplebackend.dev/documentation 
+
+and if I type https://supersimplebackend.dev/documentation 
+then I see the documentation as webpage. and not raw html
+
+So- 
+** Using the browser = same as making a GET request
+
+
+
+
+
+
 
 
 

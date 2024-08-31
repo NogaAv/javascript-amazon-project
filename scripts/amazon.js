@@ -8,7 +8,12 @@ import formatCurrency from '../scripts/utils/money.js';
   cartModule.cart;
 */
 
-import { products } from '../data/products.js';
+import { products, loadProducts } from '../data/products.js';
+
+//loadProducts(); //After this call, we need to wait for the response to come back and only then continue and run the rest of the code. Otherwise the homepage will be empty of products since the next products.forEach() call in code will have empty array (because the response with the products hasn't retuened yet).
+//To solve this problem - we put the products.forEach() in a function called renderProductsGrid() and pass it as callback function to the loadProducts()
+loadProducts(renderProductsGrid);
+
 //Data Structure:
 // const products = [
 //   {
@@ -55,11 +60,12 @@ import { products } from '../data/products.js';
 //   _50: 'images/ratings/rating-50.png',
 // };
 
-//Looping through the array:
-let productsHTML = '';
-products.forEach((product, index) => {
-  //console.log(index, product);
-  productsHTML += `
+export function renderProductsGrid() {
+  //Looping through the array:
+  let productsHTML = '';
+  products.forEach((product, index) => {
+    //console.log(index, product);
+    productsHTML += `
     <div class="product-container">
     <div class="product-image-container">
       <img class="product-image" src=${product.image} />
@@ -99,32 +105,33 @@ products.forEach((product, index) => {
 
     <button class="js-add-to-cart add-to-cart-button button-primary" data-product-id="${product.id}">Add to Cart</button>
   </div>`;
-});
+  });
 
-//console.log(productsHTML);
-document.querySelector('.js-products-grid').innerHTML = productsHTML;
+  //console.log(productsHTML);
+  document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
-//In case we already have items in cart, we update the cart icon quantity:
-updateCartQuantity();
+  //In case we already have items in cart, we update the cart icon quantity:
+  updateCartQuantity();
 
-//We will not move this function to the cart.js file, because this function updates the webpage,
-//and not the cart itself.
-function updateCartQuantity() {
-  //update cart quantity in up-right corner of amazon.html page:
-  let cartQuantity = 0;
-  cart.forEach((cartItem) => (cartQuantity += cartItem.quantity));
-  document.querySelectorAll('.cart-quantity').forEach((cartQuant) => {
-    cartQuant.innerText = cartQuantity;
+  //We will not move this function to the cart.js file, because this function updates the webpage,
+  //and not the cart itself.
+  function updateCartQuantity() {
+    //update cart quantity in up-right corner of amazon.html page:
+    let cartQuantity = 0;
+    cart.forEach((cartItem) => (cartQuantity += cartItem.quantity));
+    document.querySelectorAll('.cart-quantity').forEach((cartQuant) => {
+      cartQuant.innerText = cartQuantity;
+    });
+  }
+
+  //Adding Event listener to 'Add to cart' button:
+  document.querySelectorAll('.js-add-to-cart').forEach((addBtn) => {
+    addBtn.addEventListener('click', (event) => {
+      //console.log(addBtn.dataset); //gives us all the data-attributes attached to that element as object: {productName: "Adults Plain Cotton T-Shirt - 2 Pack"}
+
+      const productId = addBtn.dataset.productId;
+      addToCart(productId);
+      updateCartQuantity();
+    });
   });
 }
-
-//Adding Event listener to 'Add to cart' button:
-document.querySelectorAll('.js-add-to-cart').forEach((addBtn) => {
-  addBtn.addEventListener('click', (event) => {
-    //console.log(addBtn.dataset); //gives us all the data-attributes attached to that element as object: {productName: "Adults Plain Cotton T-Shirt - 2 Pack"}
-
-    const productId = addBtn.dataset.productId;
-    addToCart(productId);
-    updateCartQuantity();
-  });
-});

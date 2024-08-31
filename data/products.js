@@ -176,6 +176,29 @@ const object3 = {
 object3.method(); //undefined
 object3.method.call('hello'); //undefined
 */
+
+//Loading the products from a backend server(lesson 18):
+export let products = [];
+
+export function loadProducts(fun) {
+  const xhr = new XMLHttpRequest();
+
+  //we need this listener since send() is async and so doesn't wait for response
+  xhr.addEventListener('load', () => {
+    //console.log(xhr.response); //we see in console jason list of all products
+    products = JSON.parse(xhr.response).map((productDetails) => {
+      return productDetails.type === 'clothing' ? new Clothing(productDetails) : new Product(productDetails); //return new Product(productDetails); //map creates new array, and we need to return if we want it to be inserted to that array
+    });
+    console.log('load products');
+    fun();
+  });
+
+  xhr.open('GET', 'https://supersimplebackend.dev/products');
+  xhr.send(); //it's async-it just send request and not wait for response. so added event listener
+}
+//loadProducts();
+
+/*
 export const products = [
   {
     id: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
@@ -654,3 +677,4 @@ export const products = [
 });
 
 //console.log(products); //we get an array of class-objects, instead of regular object
+*/

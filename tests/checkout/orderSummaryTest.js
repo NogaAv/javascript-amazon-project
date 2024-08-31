@@ -1,5 +1,6 @@
 import { renderOrderSummary } from '../../scripts/checkout/orderSummary.js';
 import { loadFromStorage, cart } from '../../data/cart.js';
+import { loadProducts } from '../../data/products.js';
 
 /*
 renderOrderSummary() creates part of the checkout page. 
@@ -10,6 +11,16 @@ When we test page we have 2 things to test:
 describe('test suite: renderOrderSummary', () => {
   const productId1 = 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6';
   const productId2 = '15b6fc6f-327a-4ec4-896f-486349e85a3d';
+
+  //'beforeAll()' jasmine hook:
+  beforeAll((done) => {
+    loadProducts(() => {
+      done();
+    }); //This is async code, so we need to wait for products to be loaded first and then continue with our code.
+    //For that- jasmin has feature called: done() function.
+    //When we add that 'done' parameter to beforeAll(done) hook, now the code waits untill the done() function is called and only then go on to rest of the code, and if done() not called then it waits forever. done() -lets us constrol when to go to the next step.
+  });
+
   //'beforeEach' Hook: now before each of our test, this function is run. It's a greate way to share setup code
   beforeEach(() => {
     //When the it('remove a product') test runs orderSummary.js code, it also runs in it the function removeFromCart(productId), which saves to localStorage the cart after deleting item.

@@ -927,8 +927,24 @@ then I see the documentation as webpage. and not raw html
 So- 
 ** Using the browser = same as making a GET request
 
+Testing with backend:
+---------------------- 
+We wait untill the backend finishes to load (by using jasmin 'beforeAll()' hook to perforjm that operation once and prior to ant test that run) and then we use the done() function we passed 
+as parameter to the beforeAll((done) => {}).
 
+We added beforeAll() hook that calls the loadProducts() function, and also passed the done 
+callback as parameter so that the tests wait untill the done is called and when all products loaded.
 
+By the way, we can also use done in:
+beforeEach(done => {}) and in it(done => {}) as well, to wait for backend code to finish:
+
+    beforeEach((done) => {
+        ...
+    });
+
+    it((done) => {
+        ...
+    });
 
 
 

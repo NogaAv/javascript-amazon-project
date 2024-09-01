@@ -1102,6 +1102,39 @@ Promise.all()
 - and wait for ALL of them to finish
 
 
+FETCH:
+======
+fetch() = better way to make HTTP requests 
+
+currently in products.js we use in loadProducts(): XMLHttpRequest, to send 
+request to the backend, and it uses callback 
+      const xhr = new XMLHttpRequest();
+
+fetch() also let us make a request to the backend, but fetch() uses Promise!
+
+fetch() makes http request. By default makes GET request, so we passed the url here:
+
+    function loadProductsFetch() {
+    
+        fetch('https://supersimplebackend.dev/products').then((response) => {
+            console.log(response); //we see the response with details (status, url, body etc..)
+            return response.json();  //we return, because it is a promise and we need to wait 
+        });
+    }
+
+instead of using callback to get back the response, fetch() uses Promise, 
+so we can call on the returned promise the .then() and the parameter inside 
+is the value of response object returned from server.
+
+console.log(response); //we see the response with details (status, url, body etc..)
+How to get the data attached to this response object? 
+By calling '.json()' on the response:
+    response.json();
+
+response.json() is asynchronous, it returns a Promise. so we need to wait for this promise to finish before we continue to the next step. to do that: inside .then() we can return another promise. and so when we return a promise, it waits the promise to finish before it continues to the next step.  ..see more in code
+
+21:05:10
+
 
 
 

@@ -1,6 +1,6 @@
 import { renderOrderSummary } from '../../scripts/checkout/orderSummary.js';
 import { loadFromStorage, cart } from '../../data/cart.js';
-import { loadProducts } from '../../data/products.js';
+import { loadProducts, loadProductsFetch } from '../../data/products.js';
 
 /*
 renderOrderSummary() creates part of the checkout page. 
@@ -14,12 +14,22 @@ describe('test suite: renderOrderSummary', () => {
 
   //'beforeAll()' jasmine hook:
   beforeAll((done) => {
+    //returns promise, so I can call .then on it for the next step
+    loadProductsFetch().then(() => {
+      done();
+    });
+  });
+
+  /* //Old code that uses loadProducts() using callback (va loadProductsFetch() that returns Promise)
+
+  beforeAll((done) => {
     loadProducts(() => {
       done();
     }); //This is async code, so we need to wait for products to be loaded first and then continue with our code.
     //For that- jasmin has feature called: done() function.
     //When we add that 'done' parameter to beforeAll(done) hook, now the code waits untill the done() function is called and only then go on to rest of the code, and if done() not called then it waits forever. done() -lets us constrol when to go to the next step.
   });
+  */
 
   //'beforeEach' Hook: now before each of our test, this function is run. It's a greate way to share setup code
   beforeEach(() => {

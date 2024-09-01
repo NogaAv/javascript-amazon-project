@@ -3,7 +3,9 @@ import { renderPaymentSummary } from './checkout/paymentSummary.js';
 //import '../data/cart-oop-class.js'; //Testing this cart-oop.js code. This is another syntax to import code. This will run all the code in that file without importing anything.
 
 //import '../data/backend-practice.js';
-import { loadProducts } from '../data/products.js';
+
+//we updated the code to use loadProductsFetch() which uses promises, instead of loadProducts which uses callbacks:
+import { loadProducts, loadProductsFetch } from '../data/products.js';
 
 import { loadCart } from '../data/cart.js'; //practice: see how callback-hell created without Promise
 
@@ -17,11 +19,15 @@ import { loadCart } from '../data/cart.js'; //practice: see how callback-hell cr
 //Note: we can pass values as arg in the resolve() of every Promise, and in .then() we
 //recieve them as array of values
 Promise.all([
+  /* //we changed this load Products() to use fetch with loadProductsFetch()
+
   new Promise((resolve) => {
-    loadProducts(() => {
-      resolve('value1');
-    });
-  }),
+      loadProducts(() => {
+        resolve('value1');
+      });
+    }),
+  */
+  loadProductsFetch(), //this returns promise, se we can use it inside Promise.all()
   new Promise((resolve) => {
     //once loadCart is finish, the passed arrow-function is called and inside it we call resolve() in order to move to the next step.
     loadCart(() => {

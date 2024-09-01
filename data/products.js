@@ -180,11 +180,42 @@ object3.method.call('hello'); //undefined
 //Loading the products from a backend server(lesson 18):
 export let products = [];
 
+//Using fetch() built-in function instead of XMLHttpRequest() to make request to backend:
+export function loadProductsFetch() {
+  //fetch() makes http request. By default makes GET request
+  //makes the same req as below
+  const promise = fetch('https://supersimplebackend.dev/products')
+    .then((response) => {
+      console.log(response); //we see the response with details (status, url, body etc..)
+      //How to get the data attached to this response object? By calling '.jason()' on the response:
+      return response.json(); //it's async and returns a Promise, so we 'return' it. When we return a Promise, the code waits untill this promise is finished and then go to next step, which is the next .then(). and next then gets as argument the response.json() data
+    })
+    .then((productsData) => {
+      console.log(productsData); //the array of products (what the response.json() promise returned). not- it did JSON.parse() on the result automatically so we got array of objects
+      products = productsData.map((productDetails) => {
+        return productDetails.type === 'clothing' ? new Clothing(productDetails) : new Product(productDetails); //return new Product(productDetails); //map creates new array, and we need to return if we want it to be inserted to that array
+      });
+      console.log('load products');
+
+      //fun();  <-instead of using this to do something after, we return the promise to loadProductsFetch() and call .then() on it, and keep attaching more steps to that promise
+    });
+
+  return promise;
+}
+
+/*
+//we can return a promise out of a function and keep attaching more steps to that promise:
+loadProductsFetch().then(() => {
+  console.log('next step');
+});
+*/
+
 export function loadProducts(fun) {
   const xhr = new XMLHttpRequest();
 
   //we need this listener since send() is async and so doesn't wait for response to be 'loaded'
   xhr.addEventListener('load', () => {
+    //noteL uses callback (vs Promise used by fetch())
     //console.log(xhr.response); //we see in console jason list of all products
     products = JSON.parse(xhr.response).map((productDetails) => {
       return productDetails.type === 'clothing' ? new Clothing(productDetails) : new Product(productDetails); //return new Product(productDetails); //map creates new array, and we need to return if we want it to be inserted to that array

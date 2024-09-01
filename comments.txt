@@ -946,8 +946,160 @@ beforeEach(done => {}) and in it(done => {}) as well, to wait for backend code t
         ...
     });
 
+20:30:56 - 
+
+PROMISES:
+============
+- better way to handle asynchronous code 
+- similar to jasmine's done() function- let us wait for some code to finish, before going to 
+  the next step.
+
+In checkout.js we practice using promises.
+
+Creating a Promise:
+These are built-in class.
+When we create Promise object we must give it a function as argument(arrow-function). and-
+It's going to run this function IMMEDIATELY.
+    new Promise((resolve) => {
+    console.log('promise'); //immediately logs 'promise' to webpage.
+    });
+
+1'st param of the passed function is 'resolve'. 'resolve' is a function.
+- similar to done() function 
+- lets us control when to go to the next step.
+
+..and what is the next step? 
+
+The 'new Promise()' call is made by the js thread, BUT the function we pass it as argument and 
+which runs immediately, actually runs by other outer thread (threads of libuv and event-loop seperated from the v8 js engine) and runs AT THE SAME TIME the rest lines of code in our app runs.
 
 
+(My note: resolve is a callback function passed to the event-loop to be pushed back to app stack after 
+the async code finished and resturns, so that the resolve callback gets executes by javascript 
+thread of our app)
+
+Promises gives the ability to run 2 groups of code at the same time.
+The reason Promises designed like this:
+- It allows Javascript to do multiple things at the same time. So when the Promise finishes, 
+it can do a next-step. BUT this next step is seperate from the rest of the code, 
+and we going to have to add that next step.
+
+To add a NEXT STEP to a promise, we will use a method called: .then() 
+and that methods gets a method as argument.
+
+so-
+1. first we run the asynchronouse code (the callback function passed to Promise),
+2. then we wait for it to finish and run resolve() 
+3. resolve() makes it go to the next step in the .then() method
+
+*I will use Promise for async code if I want to do something after the async code finishes and as NEXT STEP (like- handeling return value, or handeling data changed by this async func etc..) 
+If I don't need a next step, then no need for Promise/Async-await/callback to handle a next step, like for example: writing to log-file asynchronously, I don't need next step after that..
+
+To understand the order of execution, we wrote the code:
+--------------------------------------------------------
+
+        new Promise((resolve) => {
+            console.log('start promise'); 
+
+            loadProducts(() => {
+                console.log('finished loading');
+                resolve(); 
+            });
+        }).then(() => {
+            console.log('next step');
+        });
+
+and see on console the log order:
+
+    start promise
+    load products
+    finished loading
+    next step
+
+So- resolve() lets us control When to go to the next step.
+
+The Promise version of loadProduct:
+
+            new Promise((resolve) => {
+            loadProducts(() => {
+                resolve();
+        });
+        }).then(() => {
+            renderOrderSummary();
+            renderPaymentSummary();
+        });
+
+As we can see- The Promise code we wrote make the same as the loadProducts callback version:
+
+        loadProducts(() => {
+            renderOrderSummary();
+            renderPaymentSummary();
+        });
+
+SO-
+Why do we use Promises?
+------------------------ 
+why not use the callback version? It seemd less code to write.. The answer:
+Callbacks have big problem => Multiple callbacks cause a lot of nesting (Nesting Hell)
+
+We added layer of nesting. 
+The problem: If we have lots of callbacks, our code will become more and more nested, and 
+less and less readable:
+
+        loadProducts(() => {
+            loadCart(() => {
+                loadOrders(() => {
+                    loadHistory(() => {
+                        renderOrderSummary(); 
+                        renderPaymentSummary();
+                    });
+                });
+            
+            });
+        });
+
+So, Promises let us solve this problem by FLATTEN our code.
+
+The code with Promises instead of nested callback, looks like this:
+[code #1]:
+
+        new Promise((resolve) => {
+            loadProducts(() => {
+                resolve(); //go to next step (i.e- 'then()')
+        });
+        }).then(() => {
+            return new Promise((resolve) => {
+                    loadCart(() => {
+                    resolve(); //go to next step (to next '.then()' if exist)
+                });
+        }).then(() => {
+            renderOrderSummary();
+            renderPaymentSummary();
+           });
+        });
+
+
+Compare Promises and Callbacks:
+Although Promises requires setup code, it keeps our code relatively flat and the code 
+doesn't become more and more nested like in callbacks.
+Promises helps us keep our code flat , and let us avoid nestings.
+
+This is why- it is recommended to: Use promises instead of callbacks!
+
+Features Promises have:
+-----------------------
+1. resolve(param) -> the parameter is sent as argument value to the next .then(), and this way we can share values between two steps of a promise.
+2. We can run multiple promises at the same time.
+Currently (see in [code #1] above) we wait for things to load one at a time:
+we wait for the products to load, and then we wait for the cart to load, and then we go to the next step and render the page.
+
+To make it more efficient, we can load the products and the cart togather at the same time.
+To do that we can use:  Promise.all()
+
+Promise.all()
+=============
+- lets us run multiple promises at the same time 
+- and wait for ALL of them to finish
 
 
 

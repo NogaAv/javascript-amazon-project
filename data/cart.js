@@ -84,3 +84,21 @@ export function getTotalQuantity() {
   cart.forEach((cartItem) => (itemsCount += cartItem.quantity));
   return itemsCount;
 }
+
+//PRACTICE CODE:
+//--------------------------------------------------------------------------------
+// to demonstrate how multiple callbacks create 'callback hell' and why we
+//use Promises:
+//Let's say we want to load the cart from the backend:  /cart
+//we will call it from the checkout.js:
+export function loadCart(fun) {
+  const xhr = new XMLHttpRequest();
+
+  xhr.addEventListener('load', () => {
+    console.log('load cart');
+    fun();
+  });
+
+  xhr.open('GET', 'https://supersimplebackend.dev/cart'); //url for practice. just returns text
+  xhr.send();
+}

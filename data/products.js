@@ -183,7 +183,7 @@ export let products = [];
 export function loadProducts(fun) {
   const xhr = new XMLHttpRequest();
 
-  //we need this listener since send() is async and so doesn't wait for response
+  //we need this listener since send() is async and so doesn't wait for response to be 'loaded'
   xhr.addEventListener('load', () => {
     //console.log(xhr.response); //we see in console jason list of all products
     products = JSON.parse(xhr.response).map((productDetails) => {

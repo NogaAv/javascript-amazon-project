@@ -7,35 +7,22 @@ import { loadProducts } from '../data/products.js';
 
 import { loadCart } from '../data/cart.js'; //practice: see how callback-hell created without Promise
 
-//Promise.all()
-//---------------
-//loading the products and the cart togather at the same time, using Promise.all()
-//Promise.all() wait for ALL of the loadings to finish
-//we basically create array of Promises, and give it to Paromise.all(), and it will
-//wait to all promises to finish before going to the next step.
-//To add next step we add .then() at the end of the Promis.all([..]).then()
-//Note: we can pass values as arg in the resolve() of every Promise, and in .then() we
-//recieve them as array of values
-Promise.all([
-  new Promise((resolve) => {
-    loadProducts(() => {
-      resolve('value1');
-    });
-  }),
-  new Promise((resolve) => {
-    //once loadCart is finish, the passed arrow-function is called and inside it we call resolve() in order to move to the next step.
-    loadCart(() => {
-      resolve('value2'); //go to next step (to next '.then()' if exist)
-    });
-  }),
-]).then((values) => {
-  console.log(values); //['value1', 'value2']
-  //next step - after products and cart loaded from server (simultenious), we render page
+/*
+//Loading the products from backend server (Using Promise)
+new Promise((resolve) => {
+  loadProducts(() => {
+    resolve();
+  });
+}).then(() => {
   renderOrderSummary();
   renderPaymentSummary();
 });
+*/
 
-/*
+//We demonstrate here how Promises solves the callback nesting hell problem:
+//NOTE: after the loadingProducts finish and resolve() calls .then(), we want to call loadCart().
+//The problem is: inside .then() we don't have resolve() to indicate end of run like we have inside Promise callback method.
+//So- we will create inside .then() a new Promise to have another resolve() call, and return it
 
 //Loading the products from backend server (Using Promise)
 new Promise((resolve) => {
@@ -56,4 +43,24 @@ new Promise((resolve) => {
   });
 });
 
+/*
+//Loading the products from backend server (Using callbacks)
+loadProducts(() => {
+  renderOrderSummary();
+  renderPaymentSummary();
+});
+*/
+
+/*
+//Demonstrating using nesting callback (callback-hell):
+//Loading the cart and then the products from backend server
+//So now, this code will load the products, wait for it to finish and then will load the cart,
+//waits for it to finish, and then render the page.
+//We added layer of nesting. The problem: If we have lots of callbacks, our code will become more and more nested. So, Promises let us solve this problem by FLATTEN our code.
+loadProducts(() => {
+  loadCart(() => {
+    renderOrderSummary(); //we need this to run AFTER the cart is loaded, so moved inside loadCart
+    renderPaymentSummary();
+  });
+});
 */

@@ -1353,6 +1353,106 @@ so- Inside promise we can create errors in 2 ways:
 1- use throw if we creating the error synchronously/right away 
 2- use reject() if we create the error async/in the future.
 
+Now that we learn backecnd, promises, and async await, let's use them in our project:
+we make the 'Place your order button on the checkout page interactive.
+When clicking the btn it will turn the cart into an order.
+we will use the backend to create an order. 
+
+Inside paymentSummary.js we added:
+
+ document.querySelector('.js-place-order')
+  .addEventListener('click', () => {
+    
+    fetch('https://supersimplebackend.dev/orders')
+  })
+
+In this event listener we need to make a request to the backend to create the order, 
+and we need to send some data (the cart) to the backend.
+So this fetch version is not suitable for that type of request.
+
+4 types of requests:
+--------------------
+GET = get some information from the backend.
+POST = we want the backend to create something
+PUT = update something
+DELETE = delete something
+
+So far we used GET request, and that request don't let us send data to the backend.
+so we will use POST, since it let us send data (body) to the backend
+The fetch now will have second argument which is object that contains extra data =
+
+method: the type of request as string. like: 'POST'
+headers: headers give the backend more information about our request. 
+         It is needed when we send data to the backend.
+body: The actual data we want to send to the backend. In order to know how the server expect to recieve the data (structure and name of the jason sent), we need to look at the server's documentation.
+In our case- look at the : https://supersimplebackend.dev/documentation 
+under 'POST /orders' - we see that we need to call the passed object 'cart' 
+
+Note: we cannot send js object of the cart, so we use JSON.stringify:
+
+    body: JSON.stringify({
+            cart: cart,
+        }),
+
+After sending this request, we need to wait for the response.
+To do that, fetch returns a Promise. However, instead of using .then() at the end of fetch() 
+Let's use async-await, because it's cleaner.
+To use await, we must make the addEventListener('click', async ()=>{}) callback function 
+async function.
+Since we use await, we can save the fetch into a variable (const response) 
+and remember - to get the response data, we need to use:
+response.json(); 
+
+    await response.json(); //remember it also returns a promise, so we await it
+So this will give us the data that is attached to the response which should be the order 
+that was created by the backend. 
+
+Now testing-
+after clicking the button, we see the cart object in the webpage console, and- 
+we go to 'network' tab and search for 'supersimple' and see the 'orders' json:
+click it and in the tabs we can see:
+------------------------------------
+Headers - of the req and response
+Payload - what we sent to the server (the cart)
+Preview - This is what the server sent back. an order object 
+Response - The same thins as Preview- we see the order sent back from server
+
+So this is how real world website works- Instead of creating the order in our computer, 
+we send an http req to the backend to create the order.
+Now, we will save the order recieved from backend.
+
+Inside data folder we create orders.js where we will save the orders.
+we created there addOrder(), exported it and used it inside paymentSummary.js:
+at the bottom we called:
+        addOrder(order);
+To test:
+in web console, after clicking the 'Place your order' button, in console we type:
+  localStorage.getItem('orders')
+and we see the orders we saved.
+To remove the orders from localStorage we test- in console run:
+  localStorage.removeItem('orders')
+
+Next -> After we created an order, we need to go to the orders page. so-
+we added:
+
+window.location - 
+-----------------
+special object provided by js lets us control the URL at the top of the browser. 
+if we change the location object, it will change the url at the top of webpage
+
+window.location.href - gives us the URL at the top of the browser. and if we change this 
+href property, it will change the url at the browser.
+we added in code:
+
+    window.location.href = 'orders.html';
+
+http://127.0.0.1:5501/checkout.html => when clicking the place order btn, forwards to the 
+orders page on:
+http://127.0.0.1:5501/orders.html
+
+note: 
+window.location.href = 'orders.html';  <- 'orders.html' is a filepath. so it goes to the
+file relative to the current checkout.html file where the current code runs.
 
 
 

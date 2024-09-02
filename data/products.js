@@ -186,12 +186,12 @@ export function loadProductsFetch() {
   //makes the same req as below
   const promise = fetch('https://supersimplebackend.dev/products')
     .then((response) => {
-      console.log(response); //we see the response with details (status, url, body etc..)
+      //console.log(response); //we see the response with details (status, url, body etc..)
       //How to get the data attached to this response object? By calling '.jason()' on the response:
       return response.json(); //it's async and returns a Promise, so we 'return' it. When we return a Promise, the code waits untill this promise is finished and then go to next step, which is the next .then(). and next then gets as argument the response.json() data
     })
     .then((productsData) => {
-      console.log(productsData); //the array of products (what the response.json() promise returned). not- it did JSON.parse() on the result automatically so we got array of objects
+      //console.log(productsData); //the array of products (what the response.json() promise returned). not- it did JSON.parse() on the result automatically so we got array of objects
       products = productsData.map((productDetails) => {
         return productDetails.type === 'clothing' ? new Clothing(productDetails) : new Product(productDetails); //return new Product(productDetails); //map creates new array, and we need to return if we want it to be inserted to that array
       });

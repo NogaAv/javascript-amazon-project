@@ -1455,5 +1455,83 @@ window.location.href = 'orders.html';  <- 'orders.html' is a filepath. so it goe
 file relative to the current checkout.html file where the current code runs.
 
 
+URL parameters:
+===============
+On the orders.html webpage, when we click 'Track order' we are forwarded to tracking.html page.
+currently every order's 'track order' btn we click displays in that tracking.html page 
+the same order. So-
+we need every 'track order' to display the order on that page depending on the order clicked.
 
+So how do we know which product to track on that tracking.html page?
+--------------------------------------------------------------------
+We will use a feature for that called:
+URL parameters = let us save data directly in the URL.
 
+we can do that by adding at the end of the url: '?' 
+like in the browser url write:
+    http://127.0.0.1:5501/tracking.html?orderId=123 
+
+The '?' means - we are adding a URL parameter to this URL.
+A parameter is a propery-value pair (like: orderId=123)
+
+this property is like sort of an object:
+{
+    orderId: '123
+}
+
+so- using URL parameters we can save data in the URL.
+And then we can use javascript to get that data out from the URL
+
+inside tracking.html - we added script tag:
+
+    <script>
+       // window.location.href = gets the URL at the top of the browser
+       const url = new URL(window.location.href);
+    </script>
+
+URL() class analizes the url we give it and breakes it down to different parts.
+one of the parts atr the URL parameters. to get them:
+    url.searchParams.get('orderId');  //get the value of the orderId parameter
+
+Now, if I go to the tracking page, and on the url write:
+http://127.0.0.1:5501/tracking.html?orderId=123
+and refresh, then the console prints : 123
+
+if the url is just: http://127.0.0.1:5501/tracking.html 
+then console logs 'null' since there is no url parameters in that url
+
+*'URL parameters' = are also called 'search parameters'
+because they are also used for features like: YouTube search:
+when inserting in youtube search tab word to search, it will appear in the url as url parameters like: when searching 'supersimpledev', url becomes:
+
+    https://www.youtube.com/results?search_query=supersimpledev
+note: If we search for something, our search is saved as URL parameter, and if we 
+then search for something else, this also saved as URL parameter, and we can go back and 
+forth between the searches by clicking the <- and -> page arrows to go back and forth 
+and our search history is saved thanks to the search queries being saved in the URL (notice 
+when I click back and forth- the URL changes with the URL parameters query saved)
+
+We can also pass multiple parameter in the URL. to do that we seperate them with '&':
+for example:
+    http://127.0.0.1:5501/tracking.html?orderId=123&productId=456 
+
+So- URL parameters lets us save different data in EACH URL.
+
+To create the tracking.html page all we need is the orderId and the productId, so this 
+url parameters are sufficient:
+    ?orderId=123&productId=456 
+
+TODO:
+------
+Under orders.html, we need to make the change in the following section,
+in the <a href="tracking.html?orderId=123&productId=456">:
+
+            <div class="product-actions">
+              <a href="tracking.html?orderId=123&productId=456">
+                <button class="track-package-button button-secondary">
+                  Track package
+                </button>
+              </a>
+            </div> 
+
+Instructor left this change to make as an exercise.

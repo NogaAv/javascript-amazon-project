@@ -9,6 +9,37 @@ import { loadProducts, loadProductsFetch } from '../data/products.js';
 
 import { loadCart } from '../data/cart.js'; //practice: see how callback-hell created without Promise
 
+//Async await:
+//async = makes a function return a promise.
+//here- first we load the products, then we load the cart.
+async function loadPage() {
+  //console.log('load page');
+
+  //loadProductsFetch().then(() => {})  //regular promise '.then()' call
+  await loadProductsFetch(); //await waits for the response to finish before going to next line. await only works with promise.
+
+  //await can only be used with promise (not callback)
+  await new Promise((resolve) => {
+    loadCart(() => {
+      resolve();
+    });
+  });
+
+  renderOrderSummary();
+  renderPaymentSummary();
+
+  //return 'value2'; //this gets converted to: resolve('value2')
+}
+loadPage();
+/*
+//since promise is returned we can call .then()
+loadPage().then((value) => {
+  console.log('next step');
+  console.log('value2');
+});
+*/
+
+/*
 //Promise.all()
 //---------------
 //loading the products and the cart togather at the same time, using Promise.all()
@@ -27,6 +58,8 @@ Promise.all([
       });
     }),
   */
+/*
+
   loadProductsFetch(), //this returns promise, se we can use it inside Promise.all()
   new Promise((resolve) => {
     //once loadCart is finish, the passed arrow-function is called and inside it we call resolve() in order to move to the next step.
@@ -40,6 +73,7 @@ Promise.all([
   renderOrderSummary();
   renderPaymentSummary();
 });
+*/
 
 /*
 

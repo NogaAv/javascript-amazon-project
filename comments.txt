@@ -1133,16 +1133,133 @@ By calling '.json()' on the response:
 
 response.json() is asynchronous, it returns a Promise. so we need to wait for this promise to finish before we continue to the next step. to do that: inside .then() we can return another promise. and so when we return a promise, it waits the promise to finish before it continues to the next step.  ..see more in code
 
-21:05:10
+Last lesson-
 
+21:13
+Async await:
+===========
+= even better way to handle asynchronous code
+so far we used Promises, but the problem with promises - it creates alot of extra code.
 
+Async await is a shortcut for promises.
 
+async = makes a function return a promise! 
+so, this following function:
 
+    async function loadPage(){
+        console.log('load page');
+    }
 
+is same as this:
 
+function loadPage(){
+    return new Promise((resolve) => {
+        console.log('load page');
+        resolve();
+    })
+}
 
+21:15:30
 
+this following function:
 
+    async function loadPage(){
+        console.log('load page');
+        return 'value2';
+    }
+
+is same as this:
+
+function loadPage(){
+    return new Promise((resolve) => {
+        console.log('load page');
+        resolve('value2');
+    })
+}
+
+so- async=makes a function return a promise.
+What's the point of this feature?
+= async lets us use the second feature: await.
+
+await = 
+--------
+- lets us WAIT for a promise to finish, before going to the next line.
+- lets us write asynchronous code like normal code (line by line).
+
+so this code:
+    async function loadPage() {
+        console.log('load page');
+
+        await loadProductsFetch(); 
+
+        return 'value2'; 
+    }
+is shortcut for this code:
+
+    function loadPage() {
+        return new Promise((resolve) => {
+            console.log('load page');
+            resolve();
+        }).then(() => {
+            return loadProductsFetch();
+        }).then(() => {
+            return new Promise((resolve) => {
+                resolve('value2');
+            });
+        });
+    }
+
+ !Important to note:
+ We can only use await, when we're inside an async function. (it's actually the main reason we use async - in order 
+ to use await which ,which our code look so much clearer).
+
+async await can only be used with promises. It doesn't do anything with a callback.
+
+21:22:34
+More details about async await:
+-------------------------------
+- we can only use await inside an async function.
+Also, The CLOSEST FUNCTION has to be async.
+For example: We cannot use 'await' on the innerFunction() unless this function is also async
+
+    async function outerFunction(){
+        console.log('hello');
+
+        function innerFunction(){
+            await loadProductsFetch();  //x invalid code. This function must be async
+        }
+    }
+
+- If we use await with Promise that calls resolve(value) with a value as argument, 
+then the value is not sent to '.then(value)' as we've seen before when not using await, instead, 
+with await- this value is returned from the await so we can catch the value by assignning to 
+variable ('const value' here)
+
+    async function loadPage() {
+
+    await loadProductsFetch(); 
+
+    //instead of .then(), with await we return the value here, like normal code
+    const value = await new Promise((resolve) => {
+        loadCart(() => {
+        resolve('value1');
+        });
+    });
+
+    console.log(value); //'value1'
+
+    renderOrderSummary();
+    renderPaymentSummary();
+    }
+    //.then((value) => {...})  <- instead of this, we get value by 'const value'
+
+- We can use await with Promise.all() as well (instructor left it as exercise) 
+
+ASYNC AWAIT:
+= shortcut for promises 
+= lets us write asynchronous code like normal code 
+Therefor, Best Practice: 
+When working with asynchronous code: Use async await, over promises and callbacks
 
 
 

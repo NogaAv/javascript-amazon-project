@@ -1233,17 +1233,17 @@ For example: We cannot use 'await' on the innerFunction() unless this function i
 - If we use await with Promise that calls resolve(value) with a value as argument, 
 then the value is not sent to '.then(value)' as we've seen before when not using await, instead, 
 with await- this value is returned from the await so we can catch the value by assignning to 
-variable ('const value' here)
+variable ('const value' here):
 
     async function loadPage() {
 
-    await loadProductsFetch(); 
+        await loadProductsFetch(); 
 
-    //instead of .then(), with await we return the value here, like normal code
-    const value = await new Promise((resolve) => {
-        loadCart(() => {
-        resolve('value1');
-        });
+        //instead of .then(), with await we return the value here, like normal code
+        const value = await new Promise((resolve) => {
+            loadCart(() => {
+            resolve('value1');
+            });
     });
 
     console.log(value); //'value1'
@@ -1261,6 +1261,97 @@ ASYNC AWAIT:
 Therefor, Best Practice: 
 When working with asynchronous code: Use async await, over promises and callbacks
 
+
+Error Handling 
+===============
+When sending HTTP requests, we could get unexpected errors. (for example: No internet connection, bad url etc..)
+
+How do we add Error handling to calbacks?
+-----------------------------------------
+In data/products.js, we go to : loadProducts() function (which uses callback, not promise),
+This function uses callback to send a request and get a response.
+What if there's an error along the way?
+* For callbacks we set up a seperate callback just for errors.
+
+How do we add Error handling to Promises?
+-----------------------------------------
+In data/products.js, we go to : loadProductsFetch() function (which usee promise).
+To handle errors in promises, promises give us 2 methods:
+.then()
+.catch() 
+so if the request has an error, it will go to the .catch() method.
+
+How do we add Error handling to 'async await'?
+---------------------------------------------- 
+In checkout.js - loadPage() function we use async await. 
+we will use here new syntax called:  try catch 
+Inside the 'try' we put the code that may cause error. 
+
+so catch() workd same as .catch() in regular promise 
+
+More details about try-catch:
+-----------------------------
+- We don't need to use try/catch only in async-await function. 
+We can actually use try/catch with synchronous code (or normal code). For example:
+
+If we try to run function that doesn't exist, it will throw error. 
+we can catch it with try-catch :
+
+    try{
+        doesNotExist();
+        console.log('next line');
+    } catch(error) {
+        console.log('Error!');
+    }
+
+- Whenever we get an error, it will skip the rest of the code. 
+so in the above code, the 'next line' statement is not executed.
+
+Why don't use try/catch everywhere in our code?
+- it's meant to handle UNEXPECTED ERRORS (code is correct, outside our control) 
+so we can give instructions in error message on what to do.
+
+Last thing to know about error handeling - 
+We can manually create errors.
+To manually create error, we use the keyword: throw 
+we throw error that we will catch later. 
+
+for example:
+Inside try-catch we added:
+    throw 'error1'; 
+It manually creats error.it will skip the rest of the code and get to the catch() block.
+we can give throw any value, here we gave string of message, and the catch(error) 
+the value is inside the 'error' argument 
+
+*If we're using Promises, there are 2 ways to manually create an error.
+1. Inside the new Promise we throw error
+
+if we await a promise inside try block, so in case of error in the promise code, instead of going to the promise's .catch() method, it goes to catch() block of the try/catch it is in.
+so await makes it behave like sync code/normal code.
+
+2. second way to create an error in a promise:
+Inside a promise, if we need to create an error in the future, then we need to use different code.
+For example, in this following code:
+
+    const value = await new Promise((resolve) => {
+      loadCart(() => {
+        resolve();
+      });
+    });
+
+the promise contains loadCart() function that loads the cart, and at the end it will run the arrow-callback function passed to it. so- this arrow function will run in the FUTURE.
+'throw' does NOT work in the future! so we can't use throw syntax inside that arrow function.
+
+Instead, Promises gives us another way to create an error:
+When creating a promise, first parameter is the resolve() function. 
+Second parameter is: reject() function.
+
+reject() is a function 
+- it lets us create an error in the future. 
+
+so- Inside promise we can create errors in 2 ways:
+1- use throw if we creating the error synchronously/right away 
+2- use reject() if we create the error async/in the future.
 
 
 

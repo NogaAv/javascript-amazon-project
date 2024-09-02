@@ -198,10 +198,14 @@ export function loadProductsFetch() {
       console.log('load products');
 
       //fun();  <-instead of using this to do something after, we return the promise to loadProductsFetch() and call .then() on it, and keep attaching more steps to that promise
+    })
+    .catch((error) => {
+      console.log('Unexpected error. Please try again later.' + error);
     });
 
   return promise;
 }
+//loadProductsFetch();
 
 /*
 //we can return a promise out of a function and keep attaching more steps to that promise:
@@ -224,10 +228,18 @@ export function loadProducts(fun) {
     fun();
   });
 
+  //adding 'error handeling' to this callback based function (error handler is callback itself):
+  xhr.addEventListener('error', (error) => {
+    console.log('unexpected error. Please try again later');
+  });
+
+  //created for simulating error and test the error handler
+  //xhr.open('GET', 'https://error.supersimplebackend.dev/products');
+
   xhr.open('GET', 'https://supersimplebackend.dev/products');
   xhr.send(); //it's async-it just send request and not wait for response. so added event listener
 }
-//loadProducts();
+//loadProducts(); //for testings
 
 /*
 export const products = [

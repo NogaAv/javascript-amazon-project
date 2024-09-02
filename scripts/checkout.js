@@ -16,21 +16,30 @@ async function loadPage() {
   //console.log('load page');
 
   //loadProductsFetch().then(() => {})  //regular promise '.then()' call
-  await loadProductsFetch(); //await waits for the response to finish before going to next line. await only works with promise.
+  try {
+    //throw 'error1'; //manually creating error.it will skip the code and get to the catch() block
+    await loadProductsFetch(); //await waits for the response to finish before going to next line. await only works with promise.
 
-  //await can only be used with promise (not callback)
-  await new Promise((resolve) => {
-    loadCart(() => {
-      resolve();
+    //await can only be used with promise (not callback)
+    const value = await new Promise((resolve, reject) => {
+      //throw 'error2'; //if we await a promise(like here), instead of going to .catch(), it goes to catch() block of the try/catch
+      loadCart(() => {
+        //to throw error here which is in the future, we use reject().
+        //(not 'throw' since it cannot run in future)
+        /*reject('error3'); //it will run the code inside the catch() block*/
+        resolve();
+      });
     });
-  });
-
+  } catch (error) {
+    console.log('Unexpected error. Please try again later.' + error);
+  }
   renderOrderSummary();
   renderPaymentSummary();
 
   //return 'value2'; //this gets converted to: resolve('value2')
 }
 loadPage();
+
 /*
 //since promise is returned we can call .then()
 loadPage().then((value) => {
